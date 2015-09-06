@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.css" />
+    <script src="~/Content/js/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+
+    <title></title>
+</head>
+<body>
+    <h2 class="text-center">登陆</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form class="form-horizontal" action="/Account/Login" method="post">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="email">邮箱</label>
+                        <div class="col-lg-10">
+                            <input type="text" id="email" name="email" class=" form-control">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="password">密码</label>
+                        <div class="col-lg-10">
+                            <input type="password" id="password" name="password" class=" form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-success">注册</button>
+                            <button type="submit" class="btn btn-primary">登陆</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+</html>

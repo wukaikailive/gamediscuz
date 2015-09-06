@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.css" />
+    <script src="~/Content/js/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+    <title></title>
+
+    <script>
+
+        $(document).ready(function () {
+            getEditer()
+        })
+
+        function getEditer() {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetAllStopList",
+                async: false,
+                error: function (request) {
+                    alert("Connection error")
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        //填充表格
+                        fillTable(data.data)
+
+                    } else if (data.code == 400 || data.code == 500) {
+                        alert(data.message)
+                    }
+                    else if (data.code == 300) {
+                        parent.window.location.href = data.data + "?message=" + data.message
+                    }
+                }
+            });
+        }
+
+        function fillTable(data) {
+            var t = ""
+            $.each(data, function (index, item) {
+                t += "<tr>"
+                t += "<td>" + item.UserID + "</td>"
+                t += "<td>" + item.NickName + "</td>"
+                t += "<td>" + item.Sex + "</td>"
+                t += "<td>" + item.Age + "</td>"
+                t += "<td>" + item.RegisterDate + "</td>"
+                t += "<td>"
+                t += "<a href='#' class='btn btn-success'onclick='restoreEditer(" + item.UserID + ")'>恢复</a>"
+                t += "<a href='#' class='btn btn-danger' onclick='deleteEditer(" + item.UserID + ")'>删除</a>"
+                t +="</td>"
+                t += "</tr>"
+            })
+            $("#edtor_tab_tbody").empty()
+            $("#edtor_tab_tbody").append(t)
+        }
+    </script>
+    <script>
+        function restoreEditer(id) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Restore",
+                data: { id: id },// 你的formid
+                async: false,
+                error: function (request) {
+                    alert("Connection error")
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        getEditer()
+                    } else if (data.code == 300) {
+                        parent.window.location.href = data.data + "?message=" + data.message
+                    } else {
+                        alert(data.message)
+                    }
+                }
+
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2 align="center" class="text-warning">已停用小编</h2>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <table class="table  table-bordered table-hover ">
+                        <tr>
+                            <th>编号</th>
+                            <th>名字</th>
+                            <th>昵称</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        <tbody id="edtor_tab_tbody"></tbody>
+                    </table>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
